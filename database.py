@@ -1,14 +1,47 @@
-import json
+from patient import Patient
+from database import load_data, save_data
 
-FILE_NAME = "patients.json"
+patients = load_data()
 
-def load_data():
-    try:
-        with open(FILE_NAME, "r") as file:
-            return json.load(file)
-    except:
-        return []
+def add_patient():
 
-def save_data(data):
-    with open(FILE_NAME, "w") as file:
-        json.dump(data, file, indent=4)
+    pid = input("Enter Patient ID: ")
+    name = input("Enter Name: ")
+    age = input("Enter Age: ")
+    gender = input("Enter Gender: ")
+    blood_group = input("Enter Blood Group: ")
+    phone = input("Enter Phone Number: ")
+    disease = input("Enter Disease: ")
+
+    patient = Patient(
+        pid,
+        name,
+        age,
+        gender,
+        blood_group,
+        phone,
+        disease
+    )
+
+    patients.append(patient.to_dict())
+    save_data(patients)
+
+    print("\nPatient Added Successfully!")
+
+while True:
+
+    print("\n===== Patient Management System =====")
+    print("1. Add Patient")
+    print("2. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        add_patient()
+
+    elif choice == "2":
+        print("Exiting...")
+        break
+
+    else:
+        print("Invalid Choice")
